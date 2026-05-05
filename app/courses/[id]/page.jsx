@@ -17,146 +17,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft, Calendar, BarChart3, DollarSign } from 'lucide-react';
+import dbConnect from '@/lib/dbConnect';
+import Course from '@/models/Course';
 
-// Sample courses for when database is empty
-const sampleCourses = {
-  'sample-1': {
-    _id: 'sample-1',
-    title: 'Complete React Development',
-    shortDescription: 'Master React from scratch with hooks, context, and modern patterns.',
-    fullDescription: `This comprehensive React course takes you from beginner to advanced developer. You'll learn everything you need to build modern, scalable web applications with React.
-
-Topics covered include:
-- React fundamentals and JSX
-- Component architecture and props
-- State management with useState and useReducer
-- Side effects with useEffect
-- Context API for global state
-- Custom hooks development
-- Performance optimization
-- Testing with React Testing Library
-- Real-world project building
-
-By the end of this course, you'll have the skills to build professional React applications and be ready for job interviews.`,
-    price: 99,
-    level: 'Intermediate',
-    image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop',
-    createdAt: new Date('2024-01-15'),
-  },
-  'sample-2': {
-    _id: 'sample-2',
-    title: 'Python for Data Science',
-    shortDescription: 'Learn Python programming and data analysis with pandas and numpy.',
-    fullDescription: `Dive into the world of data science with Python. This course covers everything from basic Python programming to advanced data analysis techniques.
-
-What you'll learn:
-- Python fundamentals and syntax
-- Working with pandas DataFrames
-- Numerical computing with NumPy
-- Data visualization with Matplotlib and Seaborn
-- Statistical analysis
-- Machine learning basics with scikit-learn
-- Real-world data projects
-
-Perfect for beginners who want to start a career in data science or analysts looking to add Python to their toolkit.`,
-    price: 79,
-    level: 'Beginner',
-    image: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=800&h=400&fit=crop',
-    createdAt: new Date('2024-02-01'),
-  },
-  'sample-3': {
-    _id: 'sample-3',
-    title: 'UI/UX Design Masterclass',
-    shortDescription: 'Create stunning user interfaces and seamless user experiences.',
-    fullDescription: `Become a professional UI/UX designer with this comprehensive masterclass. Learn the principles and tools used by top designers at leading tech companies.
-
-Course highlights:
-- Design thinking methodology
-- User research and personas
-- Information architecture
-- Wireframing and prototyping
-- Visual design principles
-- Figma mastery
-- Design systems
-- Accessibility best practices
-- Portfolio building
-
-Graduate with a professional portfolio and the skills to land your dream design job.`,
-    price: 129,
-    level: 'Advanced',
-    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=400&fit=crop',
-    createdAt: new Date('2024-01-20'),
-  },
-  'sample-4': {
-    _id: 'sample-4',
-    title: 'Node.js Backend Development',
-    shortDescription: 'Build scalable server-side applications with Node.js and Express.',
-    fullDescription: `Master backend development with Node.js. This course teaches you how to build robust, scalable server applications from the ground up.
-
-What's included:
-- Node.js fundamentals
-- Express.js framework
-- RESTful API design
-- Database integration (MongoDB, PostgreSQL)
-- Authentication and authorization
-- Error handling and validation
-- Testing and debugging
-- Deployment strategies
-- Performance optimization
-
-Build real-world APIs and backend services that power modern web applications.`,
-    price: 89,
-    level: 'Intermediate',
-    image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&h=400&fit=crop',
-    createdAt: new Date('2024-02-10'),
-  },
-  'sample-5': {
-    _id: 'sample-5',
-    title: 'JavaScript Fundamentals',
-    shortDescription: 'Learn the core concepts of JavaScript from variables to async programming.',
-    fullDescription: `Start your programming journey with JavaScript, the language of the web. This beginner-friendly course covers all the essentials you need to know.
-
-Topics include:
-- Variables and data types
-- Control flow and loops
-- Functions and scope
-- Objects and arrays
-- DOM manipulation
-- Event handling
-- Asynchronous programming
-- Promises and async/await
-- Modern ES6+ features
-
-Perfect for complete beginners who want to learn programming or web development.`,
-    price: 49,
-    level: 'Beginner',
-    image: 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=800&h=400&fit=crop',
-    createdAt: new Date('2024-01-05'),
-  },
-  'sample-6': {
-    _id: 'sample-6',
-    title: 'AWS Cloud Architecture',
-    shortDescription: 'Design and deploy scalable cloud solutions using Amazon Web Services.',
-    fullDescription: `Become a certified AWS architect with this advanced cloud computing course. Learn to design and implement highly available, scalable systems on AWS.
-
-Covered services:
-- EC2, Lambda, and compute options
-- S3, EBS, and storage solutions
-- VPC and networking
-- RDS, DynamoDB, and databases
-- CloudFormation and infrastructure as code
-- Security best practices
-- Cost optimization
-- High availability patterns
-- Real-world architecture examples
-
-Prepare for the AWS Solutions Architect certification while building practical skills.`,
-    price: 149,
-    level: 'Advanced',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop',
-    createdAt: new Date('2024-02-15'),
-  },
-};
 
 const levelColors = {
   Beginner: 'bg-green-100 text-green-800',
@@ -165,27 +28,15 @@ const levelColors = {
 };
 
 async function getCourse(id) {
-  // Try to fetch from API first
   try {
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NEXTAUTH_URL || 'http://localhost:3000';
-    
-    const res = await fetch(`${baseUrl}/api/courses/${id}`, {
-      cache: 'no-store',
-    });
-    
-    if (res.ok) {
-      const data = await res.json();
-      if (data.success && data.data) {
-        return data.data;
-      }
-    }
+    await dbConnect();
+    const course = await Course.findById(id).lean();
+
+    if (course) return course;
   } catch (error) {
-    console.error('Error fetching course from API:', error);
+    console.error(error);
   }
 
-  // Fallback to sample data
   if (sampleCourses[id]) {
     return sampleCourses[id];
   }
@@ -194,7 +45,7 @@ async function getCourse(id) {
 }
 
 export default async function CourseDetailsPage({ params }) {
-  const { id } = await params;
+  const { id } = params;
   const course = await getCourse(id);
 
   if (!course) {
@@ -203,10 +54,10 @@ export default async function CourseDetailsPage({ params }) {
 
   const formattedDate = course.createdAt
     ? new Date(course.createdAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
     : 'Recently added';
 
   return (
