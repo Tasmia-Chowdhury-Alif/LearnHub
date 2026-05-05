@@ -11,7 +11,7 @@ export default function TestimonialsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen bg-background mt-8">
         {/* Reuse existing component */}
         <Testimonials />
       </main>

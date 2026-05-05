@@ -99,51 +99,61 @@ export default function PopularCourses() {
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {loading
             ? Array.from({ length: 4 }).map((_, i) => (
-                <Card key={i} className="overflow-hidden">
-                  <div className="aspect-video animate-pulse bg-muted" />
-                  <CardContent className="p-4">
-                    <div className="h-4 w-20 animate-pulse rounded bg-muted" />
-                    <div className="mt-3 h-5 w-full animate-pulse rounded bg-muted" />
-                    <div className="mt-2 h-4 w-3/4 animate-pulse rounded bg-muted" />
-                    <div className="mt-4 h-6 w-16 animate-pulse rounded bg-muted" />
-                  </CardContent>
-                </Card>
-              ))
+              <Card key={i} className="overflow-hidden">
+                <div className="aspect-video animate-pulse bg-muted" />
+                <CardContent className="p-4">
+                  <div className="h-4 w-20 animate-pulse rounded bg-muted" />
+                  <div className="mt-3 h-5 w-full animate-pulse rounded bg-muted" />
+                  <div className="mt-2 h-4 w-3/4 animate-pulse rounded bg-muted" />
+                  <div className="mt-4 h-6 w-16 animate-pulse rounded bg-muted" />
+                </CardContent>
+              </Card>
+            ))
             : courses.map((course) => (
-                <Card
-                  key={course._id}
-                  className="group overflow-hidden border border-border transition-all duration-300 hover:border-accent/50 hover:shadow-lg"
-                >
-                  <div className="relative aspect-video overflow-hidden">
-                    <Image
-                      src={course.image}
-                      alt={course.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
+              <Card
+                key={course._id}
+                className="group relative overflow-hidden rounded-2xl border transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+              >
+                <div className="relative aspect-video overflow-hidden">
+                  <Image
+                    src={course.image}
+                    alt={course.title}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-110"
+                  />
+
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
+
+                  {/* CTA on hover */}
+                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition">
+                    <Button size="sm" className="w-full">Enroll Now</Button>
                   </div>
-                  <CardContent className="p-4">
-                    <Badge variant="secondary" className={levelColors[course.level]}>
-                      {course.level}
-                    </Badge>
-                    <h3 className="mt-3 line-clamp-1 text-lg font-semibold text-foreground">
-                      {course.title}
-                    </h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                      {course.shortDescription}
-                    </p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-lg font-bold text-foreground">${course.price}</span>
-                      <Button asChild variant="ghost" size="sm" className="gap-1">
-                        <Link href={`/courses/${course._id}`}>
-                          View Details
-                          <ArrowRight className="h-3 w-3" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                </div>
+
+                <CardContent className="p-4">
+                  <Badge variant="secondary" className={levelColors[course.level]}>
+                    {course.level}
+                  </Badge>
+
+                  <h3 className="mt-3 text-lg font-semibold">{course.title}</h3>
+
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {course.shortDescription}
+                  </p>
+
+                  <div className="mt-4 flex justify-between items-center">
+                    <span className="text-lg font-bold">${course.price}</span>
+
+                    <Button asChild variant="ghost" size="sm">
+                      <Link href={`/courses/${course._id}`}>
+                        Details →
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
         </div>
       </div>
     </section>

@@ -83,7 +83,7 @@ export default function CoursesPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="flex-1 bg-background">
+      <main className="flex-1 bg-background mt-18">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           {/* Page Header */}
           <div className="text-center">

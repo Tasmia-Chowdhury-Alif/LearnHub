@@ -53,10 +53,10 @@ export default function Features() {
           {features.map((feature) => (
             <Card
               key={feature.title}
-              className="group border border-border bg-background transition-all duration-300 hover:border-accent/50 hover:shadow-lg"
+              className="group rounded-2xl border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
               <CardContent className="p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-accent group-hover:text-white">
                   <feature.icon className="h-6 w-6" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-foreground">{feature.title}</h3>
