@@ -6,8 +6,7 @@ It allows users to browse courses, view details, and manage courses with authent
 ---
 
 ## 🚀 Live Demo
-> Add your deployed Vercel link here  
-https://your-live-link.vercel.app
+[https://learn-hub-rho-two.vercel.app/](https://learn-hub-rho-two.vercel.app/)
 
 ---
 
@@ -72,10 +71,13 @@ npm run dev
 App will run on:
 
 http://localhost:3000
-🔐 Authentication Setup (NextAuth)
+```
+## 🔐 Authentication Setup (NextAuth)
+
 Google OAuth is required for login
 Credentials login is used for demo purposes
 Session-based authentication for protected routes
+
 📌 Key Pages
 / → Landing Page
 /login → Authentication
@@ -83,7 +85,8 @@ Session-based authentication for protected routes
 /courses/[id] → Course Details
 /add-course → Add Course (Protected)
 /manage-courses → Manage Courses (Protected)
-🎯 Learning Outcome
+
+## 🎯 Learning Outcome
 
 This project demonstrates:
 
@@ -94,7 +97,3 @@ Search & filter implementation
 Responsive UI design
 Protected routing system
 
-```
-## 🧑‍💻 Author
-
-Tasmia Chowdhury Alif
