@@ -111,7 +111,7 @@ export default function ManageCoursesPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="flex-1 bg-background py-12">
+      <main className="flex-1 bg-background py-26">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <Card className="border border-border">
             <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
